@@ -17,7 +17,7 @@ const UpdateTask = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const res = await axios.get(`http://localhost:10000/api/getTask/${taskId}`);
+        const res = await axios.get(`/api/getTask/${taskId}`);
         setTaskData(res.data);
       } catch (error) {
         setError('Error fetching task');
@@ -32,7 +32,7 @@ const UpdateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:10000/api/tasks/${taskId}`, taskData);
+      await axios.put(`/api/tasks/${taskId}`, taskData);
       alert('Task updated successfully');
       navigate('/'); // Redirect to home or task list page after updating
     } catch (error) {

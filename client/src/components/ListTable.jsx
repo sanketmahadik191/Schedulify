@@ -10,7 +10,7 @@ const ListTable = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await axios.get("http://localhost:10000/api/getTasks");
+        const res = await axios.get("/api/getTasks");
         setTasks(res.data);
       } catch (error) {
         setError("Error fetching tasks. Please try again later.");
@@ -23,7 +23,7 @@ const ListTable = () => {
   const deleteTask = async (taskId) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       try {
-        await axios.delete(`http://localhost:10000/api/tasks/${taskId}`);
+        await axios.delete(`/api/tasks/${taskId}`);
         setTasks(tasks.filter((task) => task._id !== taskId));
       } catch (error) {
         setError("Error deleting task. Please try again later.");

@@ -11,7 +11,7 @@ const {taskId} = useParams();
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const res = await axios.get(`http://localhost:10000/api/tasks/${taskId}/logs`);
+        const res = await axios.get(`/api/tasks/${taskId}/logs`);
         setLogs(res.data);
       } catch (error) {
         setError('Error fetching logs');

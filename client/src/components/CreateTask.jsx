@@ -13,7 +13,7 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:10000/api/createTask", taskData);
+      await axios.post("/api/createTask", taskData);
       alert("Task created successfully");
       navigate("/");
     } catch (error) {
