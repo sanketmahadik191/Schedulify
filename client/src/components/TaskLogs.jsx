@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const TaskLogs = () => {
-const {taskId} = useParams();
+  const { taskId } = useParams();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,36 +28,44 @@ const {taskId} = useParams();
   }
 
   if (error) {
-    return <div className="text-red-500 text-center py-4">Error: {error}</div>;
+    return (
+      <div className="text-red-500 text-center py-4">Error: {error}</div>
+    );
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Logs for Task {taskId}</h1>
-      <table className="min-w-full bg-white border border-gray-200 rounded-md shadow-md">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border-b px-4 py-2 text-left">Status</th>
-            <th className="border-b px-4 py-2 text-left">Message</th>
-            <th className="border-b px-4 py-2 text-left">Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs.length === 0 ? (
-            <tr>
-              <td colSpan="3" className="border-b px-4 py-2 text-center">No logs available</td>
+    <div className="max-w-6xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Logs for Task {taskId}</h2>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200 rounded-md shadow-md">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border-b px-4 py-2 text-left">Status</th>
+              <th className="border-b px-4 py-2 text-left">Message</th>
+              <th className="border-b px-4 py-2 text-left">Timestamp</th>
             </tr>
-          ) : (
-            logs.map((log) => (
-              <tr key={log._id}>
-                <td className="border-b px-4 py-2">{log.status}</td>
-                <td className="border-b px-4 py-2">{log.message}</td>
-                <td className="border-b px-4 py-2">{new Date(log.timeStamp).toLocaleString()}</td>
+          </thead>
+          <tbody>
+            {logs.length === 0 ? (
+              <tr>
+                <td colSpan="3" className="border-b px-4 py-2 text-center">
+                  No logs available
+                </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              logs.map((log) => (
+                <tr key={log._id}>
+                  <td className="border-b px-4 py-2">{log.status}</td>
+                  <td className="border-b px-4 py-2">{log.message}</td>
+                  <td className="border-b px-4 py-2">
+                    {new Date(log.timeStamp).toLocaleString()}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

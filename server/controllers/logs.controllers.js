@@ -1,4 +1,6 @@
-const Log = require('../models/Log');
+// server/controllers/logController.js
+
+const Log = require('../models/logSchema');
 
 // Get all logs
 const getAllLogs = async (req, res) => {
@@ -28,3 +30,4 @@ module.exports = {
   getAllLogs,
   addLog,
 };
+

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateTask = () => {
   const [taskData, setTaskData] = useState({
-    displayName: "",
-    cronExpression: "",
+    displayName: '',
+    email: '',
+    cronExpression: '',
   });
 
   const navigate = useNavigate();
@@ -13,11 +14,15 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/createTask", taskData);
-      alert("Task created successfully");
-      navigate("/");
+      await axios.post('/api/createTask', taskData);
+      alert('Task created successfully');
+      navigate('/');
     } catch (error) {
-      alert("Error creating task:", error);
+      alert(
+        `Error creating task: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     }
   };
 
@@ -28,24 +33,12 @@ const CreateTask = () => {
     });
   };
 
-  const handleCronChange = (e) => {
-    setTaskData({
-      ...taskData,
-      cronExpression: e.target.value,
-    });
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-lg"
-      >
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-          Create New Task
-        </h2>
-        <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">
+    <div className="max-w-lg mx-auto">
+      <h2 className="text-2xl font-bold text-center mb-6">Create New Task</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-gray-700 font-semibold mb-1">
             Display Name:
           </label>
           <input
@@ -54,20 +47,34 @@ const CreateTask = () => {
             value={taskData.displayName}
             onChange={handleChange}
             required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter Task Name"
           />
         </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 font-semibold mb-2">
+        <div>
+          <label className="block text-gray-700 font-semibold mb-1">
+            Email Address:
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={taskData.email}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter Email Address"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-semibold mb-1">
             Schedule:
           </label>
           <select
             name="cronExpression"
             value={taskData.cronExpression}
-            onChange={handleCronChange}
+            onChange={handleChange}
             required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="" disabled>
               Select a schedule
@@ -82,9 +89,6 @@ const CreateTask = () => {
             <option value="0 0 * * 0">Weekly on Sunday at midnight</option>
             <option value="0 0 1 * *">Monthly on the 1st at midnight</option>
             <option value="0 0 1 1 *">Yearly on January 1st at midnight</option>
-            <option value="0 0 0 0 0">
-              Weekly on Sunday at midnight (alternative format)
-            </option>
           </select>
         </div>
         <button

@@ -1,3 +1,5 @@
+// server/models/taskSchema.js
+
 const mongoose = require("mongoose");
 
 const taskSchema = new mongoose.Schema({
@@ -6,6 +8,10 @@ const taskSchema = new mongoose.Schema({
     required: true,
   },
   cronExpression: {
+    type: String,
+    required: true,
+  },
+  email: { // Added email field
     type: String,
     required: true,
   },
@@ -42,3 +48,4 @@ const taskSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Task", taskSchema);
+

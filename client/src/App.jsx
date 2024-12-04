@@ -1,18 +1,16 @@
-
-import './App.css'
-import Navbar from './components/Navbar'
-import ListTable from './components/ListTable'
-import {Route, Routes } from 'react-router-dom';
+import React from 'react';
+import Navbar from './components/Navbar';
+import ListTable from './components/ListTable';
 import CreateTask from './components/CreateTask';
 import UpdateTask from './components/UpdateTask';
 import TaskLogs from './components/TaskLogs';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
- 
   return (
     <>
-      <Navbar></Navbar>
-      <div>
+      <Navbar />
+      <div className="container mx-auto p-4">
         <Routes>
           <Route path="/" element={<ListTable />} />
           <Route path="/create" element={<CreateTask />} />
@@ -21,7 +19,7 @@ function App() {
         </Routes>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

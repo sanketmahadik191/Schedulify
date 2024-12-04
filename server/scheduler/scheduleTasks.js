@@ -1,5 +1,7 @@
+// server/scheduler/scheduleTasks.js
+
 const cron = require('node-cron');
-const Task = require('../models/taskSchema'); // Adjust the path as needed
+const Task = require('../models/taskSchema');
 const executeTask = require('../config/nodemailer');
 
 const scheduledTasks = new Map(); // Track scheduled tasks
@@ -16,6 +18,11 @@ const scheduleTasks = async () => {
     });
 
     for (const task of tasks) {
+      if (!cron.validate(task.cronExpression)) {
+        console.error(`Invalid cron expression for task ${task._id}: ${task.cronExpression}`);
+        continue;
+      }
+
       const cronJob = cron.schedule(task.cronExpression, async () => {
         await executeTask(task);
       });
@@ -29,3 +36,4 @@ const scheduleTasks = async () => {
 };
 
 module.exports = scheduleTasks;
+

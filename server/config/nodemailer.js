@@ -1,11 +1,13 @@
-const dotenv = require("dotenv");
+// server/config/nodemailer.js
+
 const nodemailer = require("nodemailer");
 const Log = require("../models/logSchema");
-const Task = require("../models/taskSchema");
 const cronParser = require('cron-parser');
+const dotenv = require("dotenv");
 
 dotenv.config();
 
+// Configure the transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -14,9 +16,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Helper: Calculate the next execution time based on the cron expression
 const calculateNextExecution = (cronExpression) => {
-  const interval = cronParser.parseExpression(cronExpression);
-  return interval.next().toDate();
+  try {
+    const interval = cronParser.parseExpression(cronExpression);
+    return interval.next().toDate();
+  } catch (err) {
+    console.error(`Invalid cron expression: ${cronExpression}`, err);
+    return null;
+  }
 };
 
 // Function to send emails
@@ -40,32 +48,44 @@ const sendEmail = async (to, subject, text) => {
 
 // Execute a single task and log its execution
 const executeTask = async (task) => {
-  const emailResponse = await sendEmail(
-    "sanketm457@gmail.com",
-    `Scheduled Email from ${task.displayName}`,
-    `This is a reminder email sent by the task: ${task.displayName}.`
-  );
+  try {
+    if (!task.email) {
+      throw new Error('Task has no email address defined.');
+    }
 
-  const log = new Log({
-    taskId: task._id,
-    status: emailResponse.success ? "success" : "error",
-    message: emailResponse.success
-      ? "Email sent successfully"
-      : emailResponse.error.message,
-  });
+    console.log('Executing task for:', task.displayName);
+    console.log('Recipient Email:', task.email);
 
-  await log.save();
+    const emailResponse = await sendEmail(
+      task.email,
+      `Scheduled Email from ${task.displayName}`,
+      `This is a reminder email sent by the task: ${task.displayName}.`
+    );
 
-  if (emailResponse.success) {
-    task.successCount += 1;
-    task.lastSuccess = new Date();
-  } else {
-    task.errorCount += 1;
-    task.lastError = new Date();
+    const log = new Log({
+      taskId: task._id,
+      status: emailResponse.success ? 'success' : 'error',
+      message: emailResponse.success
+        ? 'Email sent successfully'
+        : emailResponse.error.message,
+    });
+
+    await log.save();
+
+    if (emailResponse.success) {
+      task.successCount += 1;
+      task.lastSuccess = new Date();
+    } else {
+      task.errorCount += 1;
+      task.lastError = new Date();
+    }
+
+    task.nextExecution = calculateNextExecution(task.cronExpression);
+    await task.save();
+  } catch (error) {
+    console.error('Error executing task:', error);
   }
-
-  task.nextExecution = calculateNextExecution(task.cronExpression);
-  await task.save();
 };
 
 module.exports = executeTask;
+
