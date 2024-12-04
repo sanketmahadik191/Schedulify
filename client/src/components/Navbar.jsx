@@ -13,7 +13,7 @@ const Navbar = () => {
             View Tasks
           </Link>
           <Link to="/create" className="hover:text-gray-200">
-            Create Task
+            Create_Task
           </Link>
         </div>
       </div>

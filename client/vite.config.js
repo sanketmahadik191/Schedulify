@@ -8,11 +8,11 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
-      host: '0.0.0.0',
-      port: Number(env.VITE_PORT) || 3000,
+      host: '0.0.0.0', // Allows access from network devices, not just localhost
+      port: Number(env.VITE_PORT) || 3000, // Uses VITE_PORT or defaults to 3000
       proxy: {
         '/api': {
-          target: env.VITE_API_URL || 'http://localhost:5000',
+          target:"https://schedulify-backend.onrender.com/", 
           changeOrigin: true,
           secure: false,
         },
