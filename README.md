@@ -55,7 +55,7 @@ This project is a task scheduler application built with the MERN stack (MongoDB,
    ```
 
 ## How It Works
-  The task scheduler in this application uses cron expressions to determine when tasks should be executed. Tasks can be scheduled to run at specific intervals, such as every minute, every hour, or daily at midnight. Here’s a detailed breakdown of how the scheduler operates:
+  The task scheduler in this application uses cron expressions to determine when tasks should be executed. Tasks can be scheduled to run at specific intervals, such as every minute, every hour, or daily at midnight. Here’s a detailed breakdown of how the scheduler operates
 
  1. **Task Creation**
    - Users can create tasks by specifying a display name and a cron expression
