@@ -4,7 +4,7 @@
 
 This project is a task scheduler application built with the MERN stack (MongoDB, Express, React, Node.js) and Vite for the frontend. It allows users to create, manage, and schedule tasks with various cron expressions. The tasks can trigger actions such as sending emails, and the application logs these actions along with their execution status.
 
-## Hosted Link - [Click here](https://schedulify-client.onrender.com)
+## Hosted Link - [Click here](https://schedulify-1.onrender.com/)
     
 ## Setup Instructions -
 
