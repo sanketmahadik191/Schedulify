@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className="bg-blue-600 text-white p-4">
+    <nav className="bg-red-600-600 text-gray-500 p-4">
       <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between">
         <div className="text-2xl font-bold mb-2 sm:mb-0">
           <Link to="/">Task Scheduler</Link>
